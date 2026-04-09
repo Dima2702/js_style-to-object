@@ -6,22 +6,16 @@
  * @return {object}
  */
 function convertToObject(sourceString) {
-  const cssDeclaration = sourceString.trim().split(';');
-  const result = {};
+  return Object.fromEntries(
+    sourceString
+      .split(';')
+      .filter((word) => word.trim())
+      .map((word) => {
+        const [key, value] = word.split(':');
 
-  for (const fixWords of cssDeclaration) {
-    if (!fixWords.trim()) {
-      continue;
-    }
-
-    const [key, value] = fixWords.trim().split(':');
-    const keys = key.trim();
-    const values = value.trim();
-
-    result[keys] = values;
-  }
-
-  return result;
+        return [key.trim(), value.trim()];
+      }),
+  );
 }
 
 module.exports = convertToObject;
